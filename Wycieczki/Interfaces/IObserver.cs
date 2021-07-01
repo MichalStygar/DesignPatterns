@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace Wycieczki.Interfaces
 {
-    public interface IObserwowany<T>
+    public interface IObserver<T>
     {
-        public void Dodaj(T obserwator);
-        public void Usun(T obserwator);
-        public void Powiadomienie();
+        void Update(T observable);
     }
 }

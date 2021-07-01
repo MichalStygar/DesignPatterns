@@ -11,47 +11,58 @@ namespace Wycieczki
         static void Main(string[] args)
         {
             
-            Klient k1 = new Klient() { Imie = "Iza", Nazwisko = "Kowalska",Email = "iza@iza.pl" };
-            Klient k2 = new Klient() { Imie = "Marta", Nazwisko = "Janik", Email = "marta@marta.pl" };
-            Klient k3 = new Klient() { Imie = "Tomasz", Nazwisko = "Kot", Email = "tomasz@tomasz.pl" };
+            Customer k1 = new Customer() { Name = "Iza", SurName = "Kowalska",Email = "iza@iza.pl" };
+            Customer k2 = new Customer() { Name = "Marta", SurName = "Janik", Email = "marta@marta.pl" };
+            Customer k3 = new Customer() { Name = "Tomasz", SurName = "Kot", Email = "tomasz@tomasz.pl" };
 
 
-            
-            Wycieczka w1 = new Berlin();
-            Wycieczka w2 = new Warszawa();
-            
+
+            ITrip w1 = new Berlin();
+            ITrip w2 = new Warsaw();
             Console.WriteLine("\nPodstawowa wycieczka");
-            Console.WriteLine(w1.about() + " " + w1.cena());
-            Console.WriteLine(w2.about() + " " + w2.cena());
+            Console.WriteLine(w1.Description() + " " + w1.Price());
+            Console.WriteLine(w2.Description() + " " + w2.Price());
 
 
 
-            Wycieczka j1 = new Jedzenie(w1);
-            Wycieczka j2 = new Jedzenie(w2);
+            Decorator j1 = new Food(w1);
+            Decorator j2 = new Food(w2);
             Console.WriteLine("\n Wycieczka z jedzeniem");
-            Console.WriteLine(j1.about() + " " + j1.cena());
-            Console.WriteLine(j2.about() + " " + j2.cena());
+            Console.WriteLine(j1.Description() + " " + j1.Price());
+            Console.WriteLine(j2.Description() + " " + j2.Price());
 
 
 
-            Wycieczka s1 = new Nocleg(w1);
-            Wycieczka s2 = new Nocleg(w2);
+            Decorator s1 = new Accommodation(w1);
+            Decorator s2 = new Accommodation(w2);
             Console.WriteLine("\nWycieczka z jedzeniem i noclegiem");
-            Console.WriteLine(s1.about() + " " + s1.cena());
-            Console.WriteLine(s2.about() + " " + s2.cena());
+            Console.WriteLine(s1.Description() + " " + s1.Price());
+            Console.WriteLine(s2.Description() + " " + s2.Price());
 
 
-            w1.Dodaj(k1);
-            w1.Dodaj(k2);
-            w2.Dodaj(k3);
+            w1.Subscribe(k1);
+            w1.Subscribe(k2);
+            w2.Subscribe(k3);
 
-            w1.zmienCene(800);
-            w2.zmienCene(600);
+            w1.ChangePrice(800);
+            w2.ChangePrice(600);
 
-            w1.Usun(k1);
+            w1.Unsubscribe(k1);
 
-            w1.zmienCene(200);
-            
+            w1.ChangePrice(200);
+
+            IInsuranceStrategy normalInsurance = new NormalInsurance();
+            IInsuranceStrategy strongInsurance = new StrongInsurance();
+            CustomerInsurance u1 = new CustomerInsurance(normalInsurance, k1);
+            CustomerInsurance u2 = new CustomerInsurance(strongInsurance, k2);
+            u1.Add(2);
+            u1.Add(3);
+            u1.Print();
+
+            u2.Add(7);
+            u2.Print();
+
+
 
             Console.ReadLine();
         }

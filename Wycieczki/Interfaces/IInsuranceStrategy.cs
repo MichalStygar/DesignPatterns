@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Wycieczki.Models;
 
 namespace Wycieczki.Interfaces
 {
-    public interface IObserwator<T>
+    public interface IInsuranceStrategy
     {
-        void Aktualizuj(T obserwator);
+        public double GetInsurance(int day);
     }
 }
